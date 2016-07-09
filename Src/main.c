@@ -72,9 +72,6 @@ int main(void){
   /*Initialize printf*/
   flush();
   
-  ENABLECLKGPIOA();
-  ENABLECLKGPIOD();
-
   
   /* Initialize all configured peripherals */
   MW_USARTInit(USART2ID);
@@ -101,12 +98,6 @@ int main(void){
   MW_GPIOWrite(GPIOAID,GPIO_PIN_5,0);
 
   while (1) {
-    message("msg","HelloWorld");
-    MW_GPIOWrite(GPIOAID,GPIO_PIN_5,1);
-    MW_wait(1000);
-    MW_GPIOWrite(GPIOAID,GPIO_PIN_5,0);
-    MW_wait(1000);
-    flush();
   }
 }
 
