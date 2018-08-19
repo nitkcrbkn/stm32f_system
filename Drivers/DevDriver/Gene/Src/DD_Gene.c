@@ -23,19 +23,23 @@
 /*I2Cのサポート用関数*/
 int DD_I2C1Send(uint8_t add, const uint8_t *data, uint8_t size){
   int ret = MW_I2C1Transmit(add, data, size);
-  if(ret)message("err","trans faild at (%x) size %d,data[0]=%d",add,size,data[0]);
+  if(ret)message("err","I2C1 trans faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
   return ret;
 }
 int DD_I2C2Send(uint8_t add, const uint8_t *data, uint8_t size){
   int ret = MW_I2C2Transmit(add, data, size);
-  if(ret)message("err","trans faild at (%x) size %d,data[0]=%d",add,size,data[0]);
+  if(ret)message("err","I2C2 trans faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
   return ret;
 }
 int DD_I2C1Receive(uint8_t add, uint8_t *data, uint8_t size){
-  return MW_I2C1Receive(add, data, size);
+  int ret = MW_I2C1Receive(add, data, size);
+  if(ret)message("err","I2C1 receive faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
+  return ret;
 }
 int DD_I2C2Receive(uint8_t add, uint8_t *data, uint8_t size){
-  return MW_I2C2Receive(add, data, size);
+  int ret = MW_I2C2Receive(add, data, size);
+  if(ret)message("err","I2C1 receive faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
+  return ret;
 }
 
 /*DeviceDriverのタスク*/
