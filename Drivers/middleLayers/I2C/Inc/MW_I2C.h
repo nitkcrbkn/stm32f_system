@@ -22,6 +22,8 @@ typedef enum
     I2C2ID = 1,
   }i2cid_t;
 
+extern I2C_HandleTypeDef hi2c2;
+
 /**Saple code(main)
  *
  *

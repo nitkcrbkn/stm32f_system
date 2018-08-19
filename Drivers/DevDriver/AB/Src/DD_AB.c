@@ -30,7 +30,7 @@ int DD_send2AB(DD_ABHand_t *dab){
   data[1] = ~dab->dat;
 
   /* Send data */
-  return DD_I2CSend(dab->add, data, sizeof_data);
+  return DD_I2C1Send(dab->add, data, sizeof_data);
 }
 
 /*

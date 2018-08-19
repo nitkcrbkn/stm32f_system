@@ -38,7 +38,7 @@ int DD_send2MD(DD_MDHand_t *dmd){
   data[1] = val;
 
   /* Send data */
-  return DD_I2CSend(dmd->add, data, sizeof_data);
+  return DD_I2C1Send(dmd->add, data, sizeof_data);
 }
 
 /*
