@@ -8,9 +8,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/*DMA送信完了フラグを定義*/
 static
 volatile bool had_completed_tx = true;
 
+/*DMA受信完了フラグを定義*/
 static
 volatile bool had_completed_rx = true;
 
@@ -68,15 +70,16 @@ int32_t MW_I2C1Transmit(uint8_t address, const uint8_t *data, uint16_t size){
 }
 
 int32_t MW_I2C2Transmit(uint8_t address, const uint8_t *data, uint16_t size, Com_State_t *state){
-  if(had_completed_tx){
+  if(had_completed_tx){ //送信完了フラグが立っていれば送信を行う
     if( HAL_I2C_Master_Transmit_DMA(&hi2c2, address << 1, (uint8_t*)data, size) != HAL_OK ){
       return -1;
     }
-    *state = HAD_COMPLETED;
-    had_completed_tx = false;
+    *state = HAD_COMPLETED;   //送信状態を完了にする
+    had_completed_tx = false; //送信完了フラグを下げる
     return 0;
   }else{
     *state = HAD_NOT_COMPLETED;
+    //送信完了フラグが立っていなければ、送信状態を未完了にする
     return 0;
   }
 }
@@ -89,23 +92,26 @@ int32_t MW_I2C1Receive(uint8_t address, uint8_t *data, uint16_t size){
 }
 
 int32_t MW_I2C2Receive(uint8_t address, uint8_t *data, uint16_t size, Com_State_t *state){
-  if(had_completed_rx){
+  if(had_completed_rx){ //受信完了フラグが立っていれば受信を行う
     if( HAL_I2C_Master_Receive_DMA(&hi2c2, address << 1, data, size) != HAL_OK ){
       return -1;
     }
-    *state = HAD_COMPLETED;
-    had_completed_rx = false;
+    *state = HAD_COMPLETED;   //受信状態を完了にする
+    had_completed_rx = false; //受信完了フラグを下げる
     return 0;
   }else{
     *state = HAD_NOT_COMPLETED;
+    //受信完了フラグが立っていなければ、受信状態を未完了にする
     return 0;
   }
 }
 
+//送信コールバックによって送信完了フラグを立てる関数
 void MW_I2C2TransitionCompletedCallBack(void){
   had_completed_tx = true;
 }
 
+//受信コールバックによって受信完了フラグを立てる関数
 void MW_I2C2ReceptionCompletedCallBack(void){
   had_completed_rx = true;
 }
