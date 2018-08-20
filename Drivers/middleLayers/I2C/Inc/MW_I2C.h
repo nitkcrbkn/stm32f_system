@@ -9,6 +9,7 @@
 #define MIDLEWARE_INC_MW_I2C_H_
 
 #include "stm32f1xx_hal.h"
+#include <stdbool.h>
 
 typedef enum
   {
@@ -21,6 +22,17 @@ typedef enum
     I2C1ID = 0,
     I2C2ID = 1,
   }i2cid_t;
+
+extern I2C_HandleTypeDef hi2c2;
+
+/*DMA送信完了フラグを定義*/
+static
+volatile bool had_completed_tx = true;
+
+/*DMA受信完了フラグを定義*/
+static
+volatile bool had_completed_rx = true;
+
 
 /**Saple code(main)
  *
@@ -50,5 +62,7 @@ int32_t MW_I2C1Transmit(uint8_t address,const uint8_t *data,uint16_t size);
 int32_t MW_I2C2Transmit(uint8_t address,const uint8_t *data,uint16_t size);
 int32_t MW_I2C1Receive(uint8_t address,uint8_t *data,uint16_t size);
 int32_t MW_I2C2Receive(uint8_t address,uint8_t *data,uint16_t size);
+void MW_I2C2TransitionCompletedCallBack(void);
+void MW_I2C2ReceptionCompletedCallBack(void);
 
 #endif /* MIDLEWARE_INC_MW_I2C_H_ */
