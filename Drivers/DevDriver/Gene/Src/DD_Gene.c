@@ -27,9 +27,8 @@ int DD_I2C1Send(uint8_t add, const uint8_t *data, uint8_t size){
   return ret;
 }
 int DD_I2C2Send(uint8_t add, const uint8_t *data, uint8_t size){
-  static Com_State_t state;
-  int ret = MW_I2C2Transmit(add, data, size, &state);
-  if(state==HAD_NOT_COMPLETED)message("warning","I2C2 transmit had not completed");
+  int ret = MW_I2C2Transmit(add, data, size);
+  if(!had_completed_tx)message("warning","I2C2 transmit had not completed");
   if(ret)message("err","I2C2 trans faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
   return ret;
 }
@@ -39,9 +38,8 @@ int DD_I2C1Receive(uint8_t add, uint8_t *data, uint8_t size){
   return ret;
 }
 int DD_I2C2Receive(uint8_t add, uint8_t *data, uint8_t size){
-  static Com_State_t state;
-  int ret = MW_I2C2Receive(add, data, size, &state);
-  if(state==HAD_NOT_COMPLETED)message("warning","I2C2 receive had not completed");
+  int ret = MW_I2C2Receive(add, data, size);
+  if(!had_completed_rx)message("warning","I2C2 receive had not completed");
   if(ret)message("err","I2C2 receive faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
   return ret;
 }

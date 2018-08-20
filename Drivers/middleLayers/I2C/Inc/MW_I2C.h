@@ -9,6 +9,7 @@
 #define MIDLEWARE_INC_MW_I2C_H_
 
 #include "stm32f1xx_hal.h"
+#include <stdbool.h>
 
 typedef enum
   {
@@ -24,10 +25,13 @@ typedef enum
 
 extern I2C_HandleTypeDef hi2c2;
 
-typedef enum{
-  HAD_COMPLETED = 0,
-  HAD_NOT_COMPLETED = -1,
-}Com_State_t;
+/*DMA送信完了フラグを定義*/
+static
+volatile bool had_completed_tx = true;
+
+/*DMA受信完了フラグを定義*/
+static
+volatile bool had_completed_rx = true;
 
 
 /**Saple code(main)
@@ -55,9 +59,9 @@ int MW_I2CInit(i2cid_t id);
 void MW_SetI2CClockSpeed(i2cid_t id,uint32_t ClockSpeed);
 
 int32_t MW_I2C1Transmit(uint8_t address,const uint8_t *data,uint16_t size);
-int32_t MW_I2C2Transmit(uint8_t address,const uint8_t *data,uint16_t size,Com_State_t *state);
+int32_t MW_I2C2Transmit(uint8_t address,const uint8_t *data,uint16_t size);
 int32_t MW_I2C1Receive(uint8_t address,uint8_t *data,uint16_t size);
-int32_t MW_I2C2Receive(uint8_t address,uint8_t *data,uint16_t size,Com_State_t *state);
+int32_t MW_I2C2Receive(uint8_t address,uint8_t *data,uint16_t size);
 void MW_I2C2TransitionCompletedCallBack(void);
 void MW_I2C2ReceptionCompletedCallBack(void);
 
