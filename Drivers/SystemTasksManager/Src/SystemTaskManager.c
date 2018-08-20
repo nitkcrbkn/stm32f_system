@@ -281,12 +281,12 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
   MW_messageTransitionCompletedCallBack();
 }
 
-void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c){
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c){
   UNUSED(hi2c);
   MW_I2C2TransitionCompletedCallBack();
 }
 
-void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c){
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c){
   UNUSED(hi2c);
   MW_I2C2ReceptionCompletedCallBack();
 }
