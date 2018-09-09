@@ -43,8 +43,11 @@ DD_SV_t g_sv_h = {
 #if DD_NUM_OF_SS
 DD_SSHand_t g_ss_h[DD_NUM_OF_SS] = {
   { .add = 0x16,    /*I2C address*/
-    .data_size = 2, /*最大8バイト 無駄なく宣言する*/
-    .data = {0,0,0,0,0,0,0,0},
-  }
+    .receive_data_size = 4, /*最大8バイト 無駄なく宣言する*/
+    .receive_data = {0,0,0,0,0,0,0,0},
+    .send_data_size = 0, /*最大8バイト 無駄なく宣言する*/
+    .send_data = {0,0,0,0,0,0,0,0},
+    .type = D_STYP_READ,
+  },
 };
 #endif

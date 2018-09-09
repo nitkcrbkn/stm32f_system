@@ -34,7 +34,8 @@ extern DD_SV_t g_sv_h;
 #endif
 
 /*I2Cのサポート用関数*/
-int DD_I2CSend(uint8_t add,const uint8_t *data,uint8_t size);
+int DD_I2C1Send(uint8_t add,const uint8_t *data,uint8_t size);
+int DD_I2C2Send(uint8_t add,const uint8_t *data, uint8_t size);
 int DD_I2C1Receive(uint8_t add, uint8_t *data, uint8_t size);
 int DD_I2C2Receive(uint8_t add, uint8_t *data, uint8_t size);
 /*Deviceのハンドラーの表示用関数*/

@@ -21,16 +21,27 @@
 #include "message.h"
 
 /*I2Cのサポート用関数*/
-int DD_I2CSend(uint8_t add, const uint8_t *data, uint8_t size){
+int DD_I2C1Send(uint8_t add, const uint8_t *data, uint8_t size){
   int ret = MW_I2C1Transmit(add, data, size);
-  if(ret)message("err","trans faild at (%x) size %d,data[0]=%d",add,size,data[0]);
+  if(ret)message("err","I2C1 trans faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
+  return ret;
+}
+int DD_I2C2Send(uint8_t add, const uint8_t *data, uint8_t size){
+  int ret = MW_I2C2Transmit(add, data, size);
+  if(!had_completed_tx)message("warning","I2C2 transmit had not completed");
+  if(ret)message("err","I2C2 trans faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
   return ret;
 }
 int DD_I2C1Receive(uint8_t add, uint8_t *data, uint8_t size){
-  return MW_I2C1Receive(add, data, size);
+  int ret = MW_I2C1Receive(add, data, size);
+  if(ret)message("err","I2C1 receive faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
+  return ret;
 }
 int DD_I2C2Receive(uint8_t add, uint8_t *data, uint8_t size){
-  return MW_I2C2Receive(add, data, size);
+  int ret = MW_I2C2Receive(add, data, size);
+  if(!had_completed_rx)message("warning","I2C2 receive had not completed");
+  if(ret)message("err","I2C2 receive faild \n addr:[%x],size:[%d],data:[0x%02x]",add,size,data[0]);
+  return ret;
 }
 
 /*DeviceDriverのタスク*/
@@ -61,11 +72,12 @@ int DD_doTasks(void){
 #endif
 #if DD_NUM_OF_SS
   for(i=0; i<DD_NUM_OF_SS; i++){
-    ret = DD_receive2SS(&g_ss_h[i]);
+    ret = DD_SSPutReceiveRequest(i);
     if( ret ){
       return ret;
     }
   }
+  DD_receive2SS();
 #endif
 #if DD_USE_ENCODER1
   ret = DD_encoder1update();

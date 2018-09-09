@@ -35,6 +35,7 @@
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
 #include "MW_USART.h"
+#include "MW_I2C.h"
 #include "SystemTaskManager.h"
 
 /******************************************************************************/
@@ -205,6 +206,31 @@ void USART2_IRQHandler(void)
   HAL_UART_IRQHandler(&huart2);
 }
 
+
+/**
+  * @brief  This function handles I2Cx interrupt request.
+  * @param  None
+  * @retval None
+  * @Note   This function is redefined in "main.h" and related to DMA
+  *         used for I2C data transmission
+  */
+
+void DMA1_Channel4_IRQHandler(void){
+  HAL_DMA_IRQHandler(hi2c2.hdmatx);
+}
+
+
+/**
+  * @brief  This function handles I2Cx interrupt request.
+  * @param  None
+  * @retval None
+  * @Note   This function is redefined in "main.h" and related to DMA
+  *         used for I2C data reception
+  */
+
+void DMA1_Channel5_IRQHandler(void){
+  HAL_DMA_IRQHandler(hi2c2.hdmarx);
+}
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
