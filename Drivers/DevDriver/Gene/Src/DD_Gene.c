@@ -72,11 +72,12 @@ int DD_doTasks(void){
 #endif
 #if DD_NUM_OF_SS
   for(i=0; i<DD_NUM_OF_SS; i++){
-    ret = DD_receive2SS(&g_ss_h[i]);
+    ret = DD_SSPutReceiveRequest(i);
     if( ret ){
       return ret;
     }
   }
+  DD_receive2SS();
 #endif
 #if DD_USE_ENCODER1
   ret = DD_encoder1update();

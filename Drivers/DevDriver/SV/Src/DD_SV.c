@@ -19,10 +19,10 @@ static uint8_t ch = 0;
 static uint8_t SV_Read8(uint8_t _i2caddr,const uint8_t addr) {
   uint8_t Rdata;
   /* Send register data */
-  DD_I2CSend(_i2caddr, &addr, 1);
+  DD_I2C1Send(_i2caddr, &addr, 1);
   
   /* Receive data */
-  DD_I2CReceive(_i2caddr,&Rdata , 1);
+  DD_I2C1Receive(_i2caddr,&Rdata , 1);
 
   return Rdata;
 }
@@ -35,7 +35,7 @@ static int SV_Write8(uint8_t _i2caddr,uint8_t addr, uint8_t d) {
   /* Set data */
   data[1] = d;
   /* Send data */
-  return DD_I2CSend(_i2caddr, data, 2);
+  return DD_I2C1Send(_i2caddr, data, 2);
 
 }
 
@@ -76,7 +76,7 @@ int SV_SetRad(DD_SV_t *dsv) {
   ch++;
   if(ch==DD_NUM_OF_SV)ch = 0;
   /* Send data */
-  return DD_I2CSend(dsv->i2cadd, data, 5);  
+  return DD_I2C1Send(dsv->i2cadd, data, 5);  
 }
 
 int SV_print(DD_SV_t *dsv)
